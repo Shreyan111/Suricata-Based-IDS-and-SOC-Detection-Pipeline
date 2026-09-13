@@ -1,0 +1,18 @@
+alert icmp any any -> $HOME_NET any (msg:"Lab ICMP Traffic detected"; sid: 1000001; rev:1;)$
+alert tcp any any -> $HOME_NET any (msg:"Custom TCP SYN scan detected"; flags:S; threshold:type threshold, track by_src, count 10, seconds 5; sid:1000002; rev:1;)$
+alert tcp any any -> $HOME_NET any (msg:"CUSTOM TCP Connection Scan Detected"; flags:S; threshold:type threshold, track by_src, count 20, seconds 5; sid:1000003; rev:1;)$
+alert tcp any any -> $HOME_NET any (msg:"CUSTOM TCP NULL Scan Detected"; flags:0; sid:1000004; rev:1;)$
+alert udp any any -> $HOME_NET any (msg:"CUSTOM UDP Scan Activity Detected"; threshold:type threshold, track by_src, count 10, seconds 5; sid:1000005; rev:1;)$
+alert tcp any any -> $HOME_NET 22 (msg:"CUSTOM SSH Connection Attempt"; flags:S; threshold:type threshold, track by_src, count 5, seconds 30; flow:to_server; sid:1000006; rev:1;)$
+alert http any any -> $HOME_NET any (msg:"CUSTOM HTTP Admin Path Reconnaissance"; http.uri; content:"/admin"; nocase; sid:1000007; rev:1;)$
+alert http any any -> $HOME_NET any (msg:"CUSTOM HTTP Path Traversal Attempt"; http.uri; content:"../"; nocase; sid:1000008; rev:1;)$
+alert http any any -> $HOME_NET any (msg:"CUSTOM HTTP SQL Injection Pattern"; http.uri; content:"union select"; nocase; sid:1000009; rev:1;)$
+alert http any any -> $HOME_NET any (msg:"CUSTOM HTTP Command Injection Pattern"; http.uri; content:"\;id"; nocase; sid:1000010; rev:1;)$
+alert http any any -> $HOME_NET any (msg:"CUSTOM Suspicious SQLMap User-Agent"; http.user_agent; content:"sqlmap"; nocase; sid:1000011; rev:1;)$
+alert dns any any -> any any (msg:"CUSTOM Suspicious DNS Query"; dns.query; content:"example"; nocase; sid:1000013; rev:1;)$
+alert dns any any -> any any (msg:"CUSTOM High Volume DNS Activity"; threshold:type threshold, track by_src, count 30, seconds 10; sid:1000014; rev:1;)$
+alert icmp any any -> $HOME_NET any (msg:"CUSTOM ICMP Flood Detected"; itype:8; threshold:type threshold, track by_src, count 50, seconds 1; sid:1000015; rev:1;)$
+alert tcp any any -> $HOME_NET any (msg:"CUSTOM TCP RST Activity Detected"; flags:R; threshold:type threshold, track by_src, count 10, seconds 5; sid:1000016; rev:1;)$
+alert tcp any any -> $HOME_NET 21 (msg:"CUSTOM FTP Connection Attempt"; flags:S; flow:to_server; sid:1000017; rev:1;)$
+alert tcp any any -> $HOME_NET 23 (msg:"CUSTOM Telnet Connection Attempt"; flags:S; flow:to_server; sid:1000018; rev:1;)$
+alert http any any -> $HOME_NET any (msg:"CUSTOM HTTP Reconnaissance Activity"; http.method; content:"GET"; threshold:type threshold, track by_src, count 20, seconds 10; sid:1000020; rev:1;)$
